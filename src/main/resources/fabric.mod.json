@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "showmyenchants",
+  "version": "${version}",
+
+  "name": "Show My Enchants!",
+  "description": "Particle API for ease of use",
+  "authors": [],
+  "contact": {},
+
+  "license": "MIT",
+  "icon": "assets/showmyenchants/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": ["mmt007.mods.showmyenchants.ShowMyEnchantsClient"],
+    "modmenu": ["mmt007.mods.showmyenchants.config.ModMenuImpl"]
+  },
+
+  "mixins": [
+    "showmyenchants.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
