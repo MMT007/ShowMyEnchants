@@ -78,7 +78,7 @@ public class EnchantmentScreenMixin extends HandledScreenMixin<EnchantmentScreen
 
         assert this.client.world != null;
 
-        Optional<RegistryEntry.Reference<Enchantment>> optional = this.client.world.getRegistryManager().get(RegistryKeys.ENCHANTMENT)
+        Optional<RegistryEntry.Reference<Enchantment>> optional = this.client.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT)
             .getEntry((this.handler).enchantmentId[CURRENT_INDEX.get()]);
         int l = (this.handler).enchantmentLevel[CURRENT_INDEX.get()];
 
