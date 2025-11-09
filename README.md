@@ -1,7 +1,7 @@
 # Show My Enchants!
 A Simple Mod That Displays The First Enchantment Hint On The GUI Instead Of The Button's Tool-Tip
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F11O4DZR)
+[![Ko-Fi](https://cdn.modrinth.com/data/cached_images/a256a4dae1bca31bcf4b240ac2dcd3abcd255b80.png)](https://ko-fi.com/F1F11O4DZR)
 
 ## Features
 * Enabled/Disable Mod On Options Menu
