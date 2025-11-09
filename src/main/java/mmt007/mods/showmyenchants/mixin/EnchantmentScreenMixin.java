@@ -48,7 +48,7 @@ public class EnchantmentScreenMixin extends HandledScreenMixin<EnchantmentScreen
         CURRENT_INDEX.remove();
     }
 
-    @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWrapped(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIII)V"))
+    @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawWrappedText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIIIZ)V"))
     private static void pushMatrixScaling(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci){
         if(ModConfig.ENABLED.getValue()) {
             context.getMatrices().push();
@@ -56,20 +56,20 @@ public class EnchantmentScreenMixin extends HandledScreenMixin<EnchantmentScreen
         }
     }
 
-    @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWrapped(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIII)V", shift = At.Shift.AFTER))
+    @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawWrappedText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIIIZ)V", shift = At.Shift.AFTER))
     private static void popMatrixScaling(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci){
         if(ModConfig.ENABLED.getValue()) {
             context.getMatrices().pop();
         }
     }
 
-    @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWrapped(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIII)V"))
-    private static void drawCorrection(DrawContext instance, TextRenderer textRenderer, StringVisitable text, int x, int y, int width, int color){
+    @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawWrappedText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIIIZ)V"))
+    private static void drawCorrection(DrawContext instance, TextRenderer textRenderer, StringVisitable text, int x, int y, int width, int color, boolean shadow){
         if(ModConfig.ENABLED.getValue()) {
             int lines = textRenderer.wrapLines(text, width).size();
             int text_y = (int) ((y + (lines > 1 ? 0 : lines * 9 / 2f)) * scale_factor_inv) + 1;
-            instance.drawTextWrapped(textRenderer, text, (int) (x * scale_factor_inv), text_y, (int) (width * scale_factor_inv), color);
-        }else instance.drawTextWrapped(textRenderer, text, x, y, width, color);
+            instance.drawWrappedText(textRenderer, text, (int) (x * scale_factor_inv), text_y, (int) (width * scale_factor_inv), color,shadow);
+        }else instance.drawWrappedText(textRenderer, text, x, y, width, color,shadow);
     }
 
     @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/EnchantingPhrases;generatePhrase(Lnet/minecraft/client/font/TextRenderer;I)Lnet/minecraft/text/StringVisitable;"))
