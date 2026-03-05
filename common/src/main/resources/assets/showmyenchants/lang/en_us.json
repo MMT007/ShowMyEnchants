@@ -2,8 +2,8 @@
   "option.showmyenchants.title": "Show My Enchants!",
   "option.showmyenchants.enabled": "Enabled",
   "option.showmyenchants.font": "Font",
-  "option.showmyenchants.font.normal": "Normal",
-  "option.showmyenchants.font.stand_galactic_alpha": "Std. Galactic Alphabet",
+  "option.showmyenchants.font.default": "Normal",
+  "option.showmyenchants.font.alt": "Std. Galactic Alphabet",
   "option.showmyenchants.font.runatica": "Runatica",
   "option.showmyenchants.hint_tooltip": "Show Enchantment Tooltip"
 }

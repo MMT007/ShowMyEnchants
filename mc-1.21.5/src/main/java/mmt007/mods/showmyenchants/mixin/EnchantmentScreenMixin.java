@@ -16,6 +16,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.Optional;
+
+import static mmt007.mods.showmyenchants.Mod.MOD_ID;
 
 @Environment(EnvType.CLIENT)
 @Mixin(EnchantmentScreen.class)
@@ -39,7 +42,7 @@ public class EnchantmentScreenMixin extends HandledScreenMixin<EnchantmentScreen
     }
 
     @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/EnchantingPhrases;generatePhrase(Lnet/minecraft/client/font/TextRenderer;I)Lnet/minecraft/text/StringVisitable;"))
-    private void captureIndex(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci, @Local(ordinal = 5) int l){
+    private void captureIndex(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci, @Local(name = "l") int l){
         CURRENT_INDEX.set(l);
     }
 
@@ -83,9 +86,15 @@ public class EnchantmentScreenMixin extends HandledScreenMixin<EnchantmentScreen
         int l = (this.handler).enchantmentLevel[CURRENT_INDEX.get()];
 
         return optional.map(enchantmentReference -> (
-                (MutableText) Enchantment.getName(enchantmentReference, l))
-                    .setStyle(Style.EMPTY.withFont(ModConfig.FONT.getValue().getFont()))
-               ).orElse(Text.literal(". . . ?"));
+            (MutableText) Enchantment.getName(enchantmentReference, l))
+                .setStyle(
+                    Style.EMPTY.withFont(
+                        ModConfig.FONT.getValue().transform(
+                            (font, isVanilla) -> Identifier.of(isVanilla ? "minecraft" : MOD_ID, font)
+                        )
+                    )
+                )
+           ).orElse(Text.literal(". . . ?"));
     }
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z",ordinal = 0))
